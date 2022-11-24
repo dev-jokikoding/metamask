@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:metamask/bloc/home/home_bloc.dart';
+import 'package:metamask/data/model/saldo_model.dart';
+import 'package:metamask/screen/receive_page.dart';
 import 'package:metamask/screen/token_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +15,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  SaldoModel? saldoModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // Bloc get saldo
+    BlocProvider.of<HomeBloc>(context).add(GetSaldo());
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
   Widget _space(int spacer) {
     return SliverToBoxAdapter(
       child: SizedBox(
@@ -67,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _profile() {
+  Widget _profile(SaldoModel data) {
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.only(
@@ -106,9 +127,10 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: (MediaQuery.of(context).size.height / 100) * 1,
                     ),
-                    const Text(
-                      "\$0.11",
-                      style: TextStyle(
+                    Text(
+                      // separate by thousand
+                      "IDR ${data.saldo.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                      style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 16),
@@ -154,21 +176,32 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             flex: 1,
             child: Center(
-              child: Column(
-                children: const [
-                  Icon(
-                    Icons.download_outlined,
-                    color: Colors.white,
-                    size: 48,
-                  ),
-                  Text(
-                    "Receive",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16),
-                  ),
-                ],
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReceivePage(),
+                    ),
+                  ).then((value) =>
+                      BlocProvider.of<HomeBloc>(context).add(GetSaldo()));
+                },
+                child: Column(
+                  children: const [
+                    Icon(
+                      Icons.download_outlined,
+                      color: Colors.white,
+                      size: 48,
+                    ),
+                    Text(
+                      "Receive",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -324,30 +357,44 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          color: const Color(0xFF050206),
-          child: Stack(
-            children: [
-              CustomScrollView(
-                slivers: [
-                  _appBar(),
-                  _space(2),
-                  _profile(),
-                  _walletId(),
-                  _space(2),
-                  _divider(false),
-                  _space(2),
-                  _menu(),
-                  _space(4),
-                  _tokens(),
-                  _space(1),
-                  _divider(true),
-                ],
-              ),
-              _addWallet(),
-            ],
-          )),
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state is GetSaldoLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is GetSaldoSuccess) {
+          return Scaffold(
+            body: Container(
+                color: const Color(0xFF050206),
+                child: Stack(
+                  children: [
+                    CustomScrollView(
+                      slivers: [
+                        _appBar(),
+                        _space(2),
+                        _profile(state.saldoModel),
+                        _walletId(),
+                        _space(2),
+                        _divider(false),
+                        _space(2),
+                        _menu(),
+                        _space(4),
+                        _tokens(),
+                        _space(1),
+                        _divider(true),
+                      ],
+                    ),
+                    _addWallet(),
+                  ],
+                )),
+          );
+        } else {
+          return const Center(
+            child: Text("Error"),
+          );
+        }
+      },
     );
   }
 }
