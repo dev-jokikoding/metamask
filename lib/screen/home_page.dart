@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       // separate by thousand
-                      "IDR ${data.saldo.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                      "\$ ${data.saldo.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
                       style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,

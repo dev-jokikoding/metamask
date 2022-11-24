@@ -49,7 +49,7 @@ class _AppTextfieldState extends State<AppTextfield> {
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Text(
-                  "Rp",
+                  "\$ ",
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black45,
