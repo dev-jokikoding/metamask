@@ -1,5 +1,12 @@
 # riz_ongkir
 
+### Dependencies yang digunakan
+
+1. [sqflite](https://pub.dev/packages/sqflite) yang digunakan sebagai penyimpanan lokal
+2. [flutter_bloc](https://pub.dev/packages/flutter_bloc) yang digunakan sebagai state management
+3. [equatable](https://pub.dev/packages/equatable) yang digunakan untuk implementasi persamaan suatu nilai tanpa membuat boilerplate
+4. [path_provider](https://pub.dev/packages/path_provider) yang digunakan untuk menemukan lokasi pada sistem file
+
 ### Cara menjalankan project ini
 
 1. Jika kalian baru pertama kali menggunakan Flutter, silahkan baca terlebih dahulu [Document](https://docs.flutter.dev/get-started/install) ini. Lalu untuk menggunakan [VS Code](https://docs.flutter.dev/development/tools/vs-code).
