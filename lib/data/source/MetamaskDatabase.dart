@@ -41,7 +41,6 @@ class MetamaskDatabase {
 
   Future<int> createSaldoForTheFirstTime() async {
     final db = await database;
-    // execute command when table is empty
     final int? count = Sqflite.firstIntValue(
       await db!.rawQuery('SELECT COUNT(*) FROM ${Config.tblName}'),
     );

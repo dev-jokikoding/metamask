@@ -287,7 +287,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Image.asset('assets/images/etherium.png'),
+                    child: Image.asset('assets/images/ethereum.png'),
                   ),
                   Expanded(
                     flex: 3,
@@ -295,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Etherium",
+                          "Ethereum",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,

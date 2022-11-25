@@ -34,7 +34,7 @@ class _TokenPageState extends State<TokenPage> {
       backgroundColor: const Color(0xFF050206),
       elevation: 0,
       title: const Text(
-        "Etherium",
+        "Ethereum",
         style: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 24,
@@ -59,7 +59,7 @@ class _TokenPageState extends State<TokenPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/etherium.png',
+            'assets/images/ethereum.png',
             width: (MediaQuery.of(context).size.width / 100) * 20,
           ),
           const Text(
